@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="fa">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>فروشگاه آنلاین</title>
+  <script crossorigin src="https://unpkg.com/react@17/umd/react.development.js"></script>
+  <script crossorigin src="https://unpkg.com/react-dom@17/umd/react-dom.development.js"></script>
+  <script src="https://unpkg.com/babel-standalone@6/babel.min.js"></script>
+  <style>
+    body { font-family: Arial, sans-serif; direction: rtl; }
+    .product { border: 1px solid #ccc; padding: 10px; margin: 5px; width: 200px; }
+  </style>
+</head>
+<body>
+<div id="root"></div>
+<script type="text/babel">
+const api = 'http://localhost:3001';
+function App() {
+  const [products, setProducts] = React.useState([]);
+  React.useEffect(() => {
+    fetch(api + '/products').then(r => r.json()).then(setProducts);
+  }, []);
+  return (
+    <div>
+      <h1>فروشگاه آنلاین</h1>
+      <div style={{display:'flex',flexWrap:'wrap'}}>
+        {products.map(p => (
+          <div className="product" key={p._id}>
+            <img src={p.image} alt={p.name} width="100" />
+            <h3>{p.name}</h3>
+            <p>{p.price} تومان</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+}
+ReactDOM.render(<App />, document.getElementById('root'));
+</script>
+</body>
+</html>
